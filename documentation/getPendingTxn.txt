@@ -1,0 +1,82 @@
+La función logsPending es una función asíncrona en JavaScript que tiene como objetivo recuperar los registros de contratos de la cadena de bloques Ethereum en un estado pendiente. Para hacer esto, utiliza la biblioteca Alchemy.Core para realizar una consulta a la cadena de bloques y obtener los registros de contratos.
+
+La función declara tres variables: namesContract, contract0xddf252ad y topics0xddf252ad. Estas variables se utilizarán más adelante para almacenar información sobre los contratos y los tópicos de los registros.
+
+La función luego hace uso de la función getLogs de Alchemy.Core para realizar una consulta a la cadena de bloques y obtener los registros de contratos en un estado pendiente. La consulta se realiza utilizando los bloques de inicio y finalización "pendientes", lo que significa que se recuperarán todos los registros de contratos que estén en un estado pendiente.
+
+Una vez que se han obtenido los registros de contratos, se utiliza el método Array.map para transformar los datos y guardarlos en una nueva variable llamada transformedData. Esta nueva variable contiene objetos con dos propiedades: "address" y "name".
+
+A continuación, se lee el contenido de un archivo en una variable y se utiliza el método JSON.parse para convertir el contenido del archivo en un objeto JavaScript. Luego, se utiliza el método Array.map nuevamente para transformar los datos y almacenarlos en una nueva variable llamada transformedFile. Esta nueva variable también contiene objetos con dos propiedades: "address" y "name".
+
+Luego, se itera sobre el array de registros de contratos obtenidos previamente y se verifica si la dirección del contrato ya se encuentra en la lista de contratos almacenados en el archivo. Si no se encuentra, se agrega a la lista de nombres de contratos y se verifica si el primer tópico del registro es "0xddf252ad". Si es así, se agrega la dirección del contrato a la lista de contratos "0xddf252ad".
+
+Finalmente, se llama a la función contractTopic0xddf252ad y se le pasa la lista de contratos "0xddf252ad" como argumento.
+
+registros de contratos. También verifica si las direcciones de los contratos ya se encuentran en una lista de contratos almacenada en un archivo y, en caso contrario, agrega la dirección a la lista de nombres de contratos. Si el primer tópico del registro es "0xddf252ad", se agrega la dirección del contrato a la lista de contratos "0xddf252ad". Finalmente, se llama a la función contractTopic0xddf252ad y se le pasa la lista de contratos "0xddf252ad" como argumento.
+*
+
+@return {Promise} Una promesa que se resuelve con los registros de contratos en un estado pendiente.
+*/
+async function logsPending(){
+// Declaración de variables para almacenar información sobre los contratos y los tópicos de los registros
+var namesContract=[]
+var contract0xddf252ad= []
+var topics0xddf252ad=[]
+// Realizar una consulta a la cadena de bloques para obtener los registros de contratos en un estado pendiente
+var logsContracts= await alchemy.core.getLogs({
+fromBlock: "pending",
+toBlock: "pending"
+})
+// Transformar los datos de los registros de contratos y almacenarlos en una variable
+const transformedData = logsContracts.map(item => ({
+address: item.address,
+}));
+// Leer el contenido de un archivo y convertirlo en un objeto JavaScript
+const list_contract_addresses = fs.readFileSync(dir, 'utf-8');
+const data = JSON.parse(list_contract_addresses);
+// Transformar los datos del archivo y almacenarlos en una variable
+const transformedFile = data.map(item => ({
+address:item.address,
+name:item.name
+}));
+// Iterar sobre el array de registros de contratos y verificar si la dirección del contrato se encuentra en la lista de contratos del archivo
+for (let i = 0; i < logsContracts.length; i++) {
+const aux={}
+const aux0xddf252ad={}
+const auxTopic={}
+var elementPending = logsContracts[i]['address'];
+// Almacenar el tópico del registro en una variable
+auxTopic.topic=logsContracts[i]['topics'][0];
+topics0xddf252ad.push(auxTopic)
+// Filtrar la lista de contratos del archivo por la dirección del contrato
+const filteredData = transformedFile.filter(item => item.address === elementPending.toLowerCase());
+// Si la dirección del contrato no se encuentra en la lista de contratos del archivo, agregarla a la lista de nombres de contratos
+if (filteredData.length
+
+
+FUNCION NEWNAMECONTRACT
+Este código parece ser una función que se utiliza para escribir en un archivo JSON una lista de objetos que tienen una propiedad "address". La función toma como parámetro un array de objetos y luego llama a otra función llamada "listWithoutRepeatsContract", que supongo que se encarga de eliminar los elementos repetidos del array.
+
+Después, la función verifica si existe un archivo en el directorio especificado por la variable "dirNameContract". Si el archivo existe, entonces se lee su contenido y se convierte en un objeto JavaScript utilizando la función "JSON.parse". Luego, se crea un nuevo array llamado "arrayAddres" que contiene objetos con una sola propiedad "address" obtenida de cada elemento del array "listWithoutRepeats".
+
+Después, se concatena el array "arrayAddres" con el objeto "data" y se eliminan los elementos repetidos utilizando el método "filter". Finalmente, se convierte el objeto resultante en una cadena JSON y se escribe en el archivo utilizando la función "fs.writeFileSync".
+
+Si el archivo no existe, entonces se crea un nuevo archivo y se escriben los datos del array "listWithoutRepeats" en formato JSON utilizando la función "fs.writeFile".
+
+Es importante tener en cuenta que la función "fs.writeFileSync" es síncrona, lo que significa que la ejecución del código se bloqueará hasta que se complete la escritura en el archivo. Esto puede ser problemático si se está tratando con archivos grandes o si la escritura en el archivo tarda mucho tiempo. En estos casos, sería preferible utilizar la versión asíncrona de la función "fs.writeFile".
+
+
+
+FUNCION contractTopic0xddf252ad
+Este código parece ser una función que se utiliza para escribir en un archivo JSON una lista de objetos que tienen una propiedad "address". La función toma como parámetro un array de objetos y luego llama a otra función llamada "listWithoutRepeatsContract", que supongo que se encarga de eliminar los elementos repetidos del array.
+
+Después, la función verifica si existe un archivo en el directorio especificado por la variable "dirContract0xddf252ad". Si el archivo existe, entonces se lee su contenido y se convierte en un objeto JavaScript utilizando la función "JSON.parse". Luego, se crea un nuevo array llamado "arrayAddres" que contiene objetos con una sola propiedad "address" obtenida de cada elemento del array "listWithoutRepeats".
+
+Después, se concatena el array "arrayAddres" con el objeto "data" y se eliminan los elementos repetidos utilizando el método "filter". Finalmente, se convierte el objeto resultante en una cadena JSON y se escribe en el archivo utilizando la función "fs.writeFileSync".
+
+Si el archivo no existe, entonces se crea un nuevo archivo y se escriben los datos del array "listWithoutRepeats" en formato JSON utilizando la función "fs.writeFile".
+
+Es importante tener en cuenta que la función "fs.writeFileSync" es síncrona, lo que significa que la ejecución del código se bloqueará hasta que se complete la escritura en el archivo. Esto puede ser problemático si se está tratando con archivos grandes o si la escritura en el archivo tarda mucho tiempo. En estos casos, sería preferible utilizar la versión asíncrona de la función "fs.writeFile".
+
+
+
